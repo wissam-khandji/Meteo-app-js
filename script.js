@@ -3,8 +3,7 @@ let villeChoisie = "Dubai"
 recevoirTemperature(villeChoisie)
 
 //Click boutton changer de ville
-let changerVille = document.querySelector('#changer');
-changerVille.addEventListener('click', () => {
+$('#changer').click( () => {
     villeChoisie = prompt('Quelle ville voulez vous choisir ?');
     recevoirTemperature(villeChoisie);
 })
@@ -13,6 +12,7 @@ changerVille.addEventListener('click', () => {
 function recevoirTemperature(){
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${villeChoisie}&appid=d99897bcbb91f8c4224052c9f6e9db33&units=metric`
     
+  /*
     let request = new XMLHttpRequest();
     request.open('GET', url);
     request.responseType = 'json';
@@ -32,6 +32,21 @@ function recevoirTemperature(){
                 alert('un probleme est survenu, revenez plus tard.')
             }
         }
-    }
-}
+    }*/
 
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: (data) => {
+            //console.log(data);
+            $('#temperature_label').text(data.main.temp)
+            $('#ville').text(data.name)
+        },
+        error: () => {
+            alert('Un probleme est survenu, revenez plus tard.')
+        }
+    })
+
+
+}
